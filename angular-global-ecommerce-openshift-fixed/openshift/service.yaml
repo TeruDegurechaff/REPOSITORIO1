@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-trade-service
+  namespace: samuel6501-dev
+  labels:
+    app: global-trade-app
+spec:
+  selector:
+    app: global-trade-app
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

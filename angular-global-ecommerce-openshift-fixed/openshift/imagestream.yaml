@@ -1,0 +1,7 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: global-trade-app
+  namespace: samuel6501-dev
+  labels:
+    app: global-trade-app

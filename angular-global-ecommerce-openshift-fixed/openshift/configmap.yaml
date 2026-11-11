@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-trade-config
+  namespace: samuel6501-dev
+data:
+  ENVIRONMENT: "production"
+  PORT: "8080"

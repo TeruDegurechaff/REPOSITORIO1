@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: global-trade-app
+  namespace: samuel6501-dev
+  labels:
+    app: global-trade-app
+  annotations:
+    # Actualiza la imagen automáticamente cuando el ImageStream tenga un build nuevo
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"global-trade-app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"frontend-app\")].image"}]
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: global-trade-app
+  template:
+    metadata:
+      labels:
+        app: global-trade-app
+    spec:
+      containers:
+      - name: frontend-app
+        image: image-registry.openshift-image-registry.svc:5000/samuel6501-dev/global-trade-app:latest
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: global-trade-config
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"

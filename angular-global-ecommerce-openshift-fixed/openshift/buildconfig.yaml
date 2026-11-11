@@ -1,0 +1,30 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: global-trade-app
+  namespace: samuel6501-dev
+  labels:
+    app: global-trade-app
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/TU-USUARIO/angular-global-ecommerce.git   # <-- CAMBIAR
+      ref: main
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: global-trade-app:latest
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+  triggers:
+  - type: ConfigChange

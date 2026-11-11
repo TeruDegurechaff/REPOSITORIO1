@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: global-trade-route
+  namespace: samuel6501-dev
+  labels:
+    app: global-trade-app
+spec:
+  to:
+    kind: Service
+    name: global-trade-service
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
